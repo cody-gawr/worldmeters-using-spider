@@ -14,9 +14,10 @@ class CountriesSpider(scrapy.Spider):
             link = country.xpath(".//@href").get()
             
             # absolute_url = f"https://www.worldometers.info{link}"
-            # absolute_url = response.urljoin(link)
+            absolute_url = response.urljoin(link)
             
-            yield response.follow(url=link, callback=self.parse_country, meta={'country_name': name})
+            yield response.follow(url=absolute_url, callback=self.parse_country, meta={'country_name': name})
+        # yield response.follow(url='https://www.worldometers.info/world-population/china-population/', callback=self.parse_country, meta={'country_name': name})
     
     def parse_country(self, response):
         name = response.request.meta['country_name']
